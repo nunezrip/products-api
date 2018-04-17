@@ -1,6 +1,6 @@
 <?php
 
-//-----Actual endpoint------//
+// Actual endpoint
 
 //Include core configuration
 include_once('../config/core.php');
@@ -17,7 +17,8 @@ $db = $database->getConnection();
 $product = new Product($db);
 
 // Read all the products
-$results = $product->readAll();
+$product->id = $_POST['prod_id'];
+$results = $product->readOne();
 
 // Output in json format
 echo $results;
