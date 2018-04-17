@@ -19,15 +19,8 @@ $database = new Database(;
 $db = $database->getConnection();
 $product = new Product($db);
 
-// Set product property values
+$id  = $POST['del_id'];
 
-$product->name = $_POST['name'];
-$product->price = $_POST['price'];
-$product->description = $_POST['description'];
-$product->category_id = $_POST['category_id'];
-$product->id = $_POST['id'];
-
-// Update the product
-echo $product->update() ? "true" : "false";
+echo $product->delete($id) ? "true" : "false";
 
 }
