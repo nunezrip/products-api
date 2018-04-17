@@ -24,6 +24,7 @@ Class Product {
       $query = "INSERT INTO products
         SET name=:name, description=:description, price=:price, category_id=:category_id, created=:created";
 
+        //Prepare staement
         $stmt = $this->conn->prepare($query);
 
         //Sanitize HTML
@@ -97,5 +98,36 @@ Class Product {
       return json_encode($results);
 
     }
+
+  public function update() {
+
+    //Update product based on id
+    $query = "UPDATE products
+                SET name=:name, description=:description, price=:price, category_id=:category_id, created=:created
+                WHERE id=:id";
+    
+    //Prepare staement
+    $stmt = $this->conn->prepare($query);
+
+    //Sanitize HTML
+    $name = htmlspecialchars(strip_tags($this->name));
+    $description = htmlspecialchars(strip_tags($this->description));
+    $price = htmlspecialchars(strip_tags($this->price));
+    $category_id = htmlspecialchars(strip_tags($this->category_id));
+
+    //Bind the parameters
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':category_id', $category_id);
+    $stmt->bindParam(':id', $id);
+
+    //Execute the query
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
