@@ -13,9 +13,48 @@ Class Product {
   public $category_id;
   public $timestamp;
 
-
-  public function__construct($db) {
+  public function __construct($db) {
     $this->conn = $db;
+  }
+
+  public function create () {
+    try {
+
+      // Insert query
+      $query = "INSERT INTO products
+        SET name=:name, description=:description, price=:price, category_id=:category_id, created=:created";
+
+        $stmt = $this->conn->prepare($query);
+
+        //Sanitize HTML
+        $name = htmlspecialchars(strip_tags($this->name));
+        $description = htmlspecialchars(strip_tags($this->description));
+        $price = htmlspecialchars(strip_tags($this->price));
+        $category_id = htmlspecialchars(strip_tags($this->category_id));
+
+        //Bind the parameters
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':category_id', $category_id);
+
+        //We need the created viriable to know when the record was created
+        //also, to comply with strict standards: only variable should be passed
+        //by reference
+        $created = date('Y-m-d H:i:s');
+        $stmt->bindParam(':created', $created);
+
+        //Execute the query
+        if ($stmt->execute()) {
+          return true;
+        } else {
+          return false;
+        }
+
+    } // Show error if any
+    catch(PDO::Exception $exception) {
+      die('ERROR: ' . $exception->getMessage());
+    }
   }
 
   public function readAll() {
