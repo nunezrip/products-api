@@ -8,11 +8,11 @@ class Database {
   private $password = '';
   public $conn; 
 
-public function geConnection() {
-  $thi->conn = null;
+public function getConnection() {
+  $this->conn = null;
 
   try {
-    $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->usrname, $this->password);
+    $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
   } catch(PDOException $exception) {
     echo 'Connection error:' . $exception->getMessage();
   }

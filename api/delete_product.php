@@ -15,11 +15,11 @@ include_once('../config/database.php');
 include_once('../objects/product.php'); 
 
 // Class instance
-$database = new Database(;
+$database = new Database();
 $db = $database->getConnection();
 $product = new Product($db);
 
-$id  = $POST['del_id'];
+$id  = $DELETE['del_id'];
 
 echo $product->delete($id) ? "true" : "false";
 

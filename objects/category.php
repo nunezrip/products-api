@@ -1,16 +1,14 @@
 <?php
 
-Class Product {
+Class Category {
   // Database connection and table name
   private $conn;
-  private $table_name = 'products';
+  private $table_name = 'categories';
 
   // Object properties
   public $id;
   public $name;
-  public $price;
   public $description;
-  public $category_id;
   public $timestamp;
 
   public function __construct($db) {
@@ -21,8 +19,8 @@ Class Product {
     try {
 
       // Insert query
-      $query = "INSERT INTO products
-        SET name=:name, description=:description, price=:price, category_id=:category_id, created=:created";
+      $query = "INSERT INTO categories
+        SET name=:name, description=:description, created=:created";
 
         //Prepare staement
         $stmt = $this->conn->prepare($query);
@@ -30,16 +28,12 @@ Class Product {
         //Sanitize HTML
         $name = htmlspecialchars(strip_tags($this->name));
         $description = htmlspecialchars(strip_tags($this->description));
-        $price = htmlspecialchars(strip_tags($this->price));
-        $category_id = htmlspecialchars(strip_tags($this->category_id));
 
         //Bind the parameters
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':price', $price);
-        $stmt->bindParam(':category_id', $category_id);
 
-        //We need the created viriable to know when the record was created
+        //We need the created variable to know when the record was created
         //also, to comply with strict standards: only variable should be passed
         //by reference
         $created = date('Y-m-d H:i:s');
@@ -60,11 +54,9 @@ Class Product {
 
   public function readAll() {
 
-    // select all data p is short for products and c for categories
-    $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name 
+    // Select all data p is short for products and c for categories
+    $query = "SELECT c.description, c.name as category_name 
     FROM " . $this->table_name . " 
-    p LEFT JOIN categories c
-    ON p.category_id = c.id
     ORDER BY id DESC";
     
     $stmt = $this->conn->prepare($query);
@@ -77,12 +69,12 @@ Class Product {
   }
 
     public function readOne() {
-      // select all data p is short for products and c for categories
-      $query = "SELECT p.id, p.name, p.description, p. price, c.name as category_name 
+      // select all data c for categories
+      $query = "SELECT c.description, c.name as category_name 
       FROM " . $this->table_name . " 
       p LEFT JOIN categories c
-      ON p.category_id = c.id
-      WHERE p.id = :id";
+      ON c.description = c.id
+      WHERE c.id = :id";
 
       // prepare the query for execution
       $stmt = $this->conn->prepare($query);
@@ -103,7 +95,7 @@ Class Product {
 
     //Update product based on id
     $query = "UPDATE products
-                SET name=:name, description=:description, price=:price, category_id=:category_id, created=:created
+                SET name=:name, description=:description, created=:created
                 WHERE id=:id";
     
     //Prepare statement
@@ -112,14 +104,10 @@ Class Product {
     //Sanitize HTML
     $name = htmlspecialchars(strip_tags($this->name));
     $description = htmlspecialchars(strip_tags($this->description));
-    $price = htmlspecialchars(strip_tags($this->price));
-    $category_id = htmlspecialchars(strip_tags($this->category_id));
 
     //Bind the parameters
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':description', $description);
-    $stmt->bindParam(':price', $price);
-    $stmt->bindParam(':category_id', $category_id);
     $stmt->bindParam(':id', $id);
 
     //Execute the query

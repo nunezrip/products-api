@@ -1,6 +1,6 @@
 <?php
 
-// Actual endpoint
+//-----Actual endpoint------//
 
 //Include core configuration
 include_once('../config/core.php');
@@ -9,16 +9,15 @@ include_once('../config/core.php');
 include_once('../config/database.php');
 
 // Product object
-include_once('../objects/product.php'); 
+include_once('../objects/category.php'); 
 
 // Class instance
 $database = new Database();
 $db = $database->getConnection();
-$product = new Product($db);
+$category = new Category($db);
 
-// Read one the product
-$product->id = $_GET['prod_id'];
-$results = $product->readOne();
+// Read all the categories
+$results = $category->readAll();
 
 // Output in json format
 echo $results;

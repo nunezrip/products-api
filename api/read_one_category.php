@@ -5,20 +5,20 @@
 //Include core configuration
 include_once('../config/core.php');
 
-// include database connection
+// Include database connection
 include_once('../config/database.php');
 
-// Product object
-include_once('../objects/product.php'); 
+// Category object
+include_once('../objects/category.php'); 
 
 // Class instance
 $database = new Database();
 $db = $database->getConnection();
-$product = new Product($db);
+$category = new Category($db);
 
-// Read one the product
-$product->id = $_GET['prod_id'];
-$results = $product->readOne();
+// Read one the category
+$category->id = $_POST['prod_id'];
+$results = $category->readOne();
 
 // Output in json format
 echo $results;

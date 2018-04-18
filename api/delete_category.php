@@ -1,23 +1,26 @@
 <?php
 
+// If the form was submitted
+if ($_POST) {
+
 //-----Actual endpoint------//
 
 //Include core configuration
 include_once('../config/core.php');
 
-// include database connection
+// Include database connection
 include_once('../config/database.php');
 
 // Product object
-include_once('../objects/product.php'); 
+include_once('../objects/category.php'); 
 
 // Class instance
 $database = new Database();
 $db = $database->getConnection();
-$product = new Product($db);
+$category = new Category($db);
 
-// Read all the products
-$results = $product->readAll();
+$id  = $POST['del_id'];
 
-// Output in json format
-echo $results;
+echo $category->delete($id) ? "true" : "false";
+
+}
