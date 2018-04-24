@@ -19,7 +19,7 @@ $database = new Database();
 $db = $database->getConnection();
 $product = new Product($db);
 
-$id  = $DELETE['del_id'];
+$id  = $_DELETE['del_id'];
 
 echo $product->delete($id) ? "true" : "false";
 

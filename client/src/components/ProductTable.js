@@ -52,6 +52,7 @@ const Tfoot = styled.tfoot`
 				background-color: #eee;
 				padding: 1.5rem;
 				text-transform: uppercase;
+				cursor: pointer;
 			}
 		}
 	}
@@ -77,6 +78,7 @@ class ProductTable extends React.Component {
 								return (
 									<Product
 										key={id}
+										id={id}
 										name={name}
 										description={description}
 										price={price}
@@ -89,7 +91,9 @@ class ProductTable extends React.Component {
 					<Tfoot>
 						<Tr>
 							<td colSpan="5">
-								<button>Clear all</button>
+								<button type="submit" onClick={this.onChangeInput}>
+									Clear all
+								</button>
 							</td>
 						</Tr>
 					</Tfoot>
